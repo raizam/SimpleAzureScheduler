@@ -13,6 +13,6 @@ A simple standalone scheduler library relying on Azure Table Storage.
 * Scheduler class has to be thread safe (and should already be)
 
 ##How to use it
-*Take a look at the code snippet in the unit test project
-*The Scheduler class expect to get a storage connection string from the ConfigurationManager, using the key "StorageConnectionString"
-*Before compiling don't forget to add "Azure Storage" from nuget
+* Take a look at the code snippet in the unit test project
+* The Scheduler class expect to get a storage connection string from the ConfigurationManager, using the key "StorageConnectionString"
+* Before compiling don't forget to add "Azure Storage" package from nuget
