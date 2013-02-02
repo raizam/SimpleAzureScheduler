@@ -53,7 +53,7 @@ namespace SimpleAzureScheduler.Tests
                         dynamic data = task.GetData(); // there's also a generic version: T GetData<T>()
                         string title = data.Title.ToString();
 
-                        Trace.WriteLine(string.Format("Processing task {0} - Category: {1} ", task.Id, title, DateTime.Now.ToLongTimeString()));
+                        Trace.WriteLine(string.Format("{2} - Processed task {0} - Category: {1} ", task.Id, title, DateTime.Now.ToLongTimeString()));
 
                         scheduler.Close(task); //close the task (otherwise it will be executed again later)
                     }
