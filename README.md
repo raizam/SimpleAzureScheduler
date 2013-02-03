@@ -24,22 +24,19 @@ A simple standalone scheduler library relying on Azure Table Storage.
 
                 for (int i = 0; i < 100; i++)
                 {
-                    //this is how to schedule a task
+                    
                     TimeSpan ts = TimeSpan.FromSeconds(random.Next(10)); // timespan in the next 10 seconds
                     object taskData = new { Title = string.Format("Do it in {0} seconds", ts.TotalSeconds) }; //task data object can be anything System.Helper.Json can handle
+					
+					
+					//How to schedule a task:
                     scheduler.ScheduleTask(Tasks.Todo, ts, taskData); //thread safe
                 }
 
-            }//the scheduler must be always disposed to makes sure everything was saved
-
-
-            using (Scheduler scheduler = new Scheduler())
-            {
-                
 
                 IDisposable trigger = Execute.AtInterval(TimeSpan.FromSeconds(1), x => //execute every second
                 {
-                    //this is how to retrive tasks
+                    //how to retrive tasks
                     foreach (ScheduledTask task in scheduler.FetchScheduledItems(Tasks.Todo))
                     {
                         dynamic data = task.GetData(); // there's also a generic version: T GetData<T>()
@@ -55,5 +52,5 @@ A simple standalone scheduler library relying on Azure Table Storage.
 
                 trigger.Dispose(); //stops executing
 
-            }
+            }//the scheduler must be always disposed to makes sure everything was saved
 
