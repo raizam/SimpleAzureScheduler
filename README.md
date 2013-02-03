@@ -17,9 +17,9 @@ A simple standalone scheduler library relying on Azure Table Storage.
 * The Scheduler class expect to get a storage connection string from the ConfigurationManager, using the key "StorageConnectionString"
 * Before compiling don't forget to add "Azure Storage" package from nuget
 
-'''csharp
 
-  using (Scheduler scheduler = new Scheduler())
+
+			using (Scheduler scheduler = new Scheduler())
             {
 
                 for (int i = 0; i < 100; i++)
@@ -57,4 +57,3 @@ A simple standalone scheduler library relying on Azure Table Storage.
 
             }
 
-'''
