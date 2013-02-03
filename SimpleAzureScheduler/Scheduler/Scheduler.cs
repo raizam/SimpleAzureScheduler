@@ -115,7 +115,7 @@ namespace SimpleAzureScheduler
             DynamicTableEntity ent = new DynamicTableEntity();
 
 
-            ent.RowKey = string.Format("{0}-{1}", DateTime.Now.Add(taskUpdate.Result.NextRunDelay).ToUniversalTime().ToString("yyyyMMddhhmmssffff"), taskUpdate.Task.Id);
+            ent.RowKey = string.Format("{0}-{1}", DateTime.Now.Add(taskUpdate.Result.NextRunDelay).ToUniversalTime().ToString("yyyyMMddHHmmssffff"), taskUpdate.Task.Id);
 
 
             ent["Data"] = new EntityProperty(taskUpdate.Result.Data ?? taskUpdate.Task.Data);
@@ -185,7 +185,7 @@ namespace SimpleAzureScheduler
                 TableQuery.CombineFilters(
                     TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, channel),
                     TableOperators.And,
-                    TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.LessThan, DateTime.Now.ToUniversalTime().ToString("yyyyMMddhhmmssffff"))))
+                    TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.LessThan, DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmssffff"))))
                    .Take(count);
 
             var results = scheduleTable.ExecuteQuery(rangeQuery).Take(count).ToArray();
@@ -209,7 +209,7 @@ namespace SimpleAzureScheduler
                 int delimiter = x.RowKey.IndexOf('-');
                 string[] rowSpl = new string[] { x.RowKey.Substring(0, delimiter), x.RowKey.Substring(delimiter + 1) };
 
-                string tempPostponed = DateTime.Now.ToUniversalTime().AddSeconds(POSTPONE_DELAY_FOR_UNCOMMITED_SECONDS).ToString("yyyyMMddhhmmssffff") + "-" + rowSpl[1];
+                string tempPostponed = DateTime.Now.ToUniversalTime().AddSeconds(POSTPONE_DELAY_FOR_UNCOMMITED_SECONDS).ToString("yyyyMMddHHmmssffff") + "-" + rowSpl[1];
 
 
                 DynamicTableEntity ghost = new DynamicTableEntity(x.PartitionKey, tempPostponed);
@@ -232,7 +232,7 @@ namespace SimpleAzureScheduler
 
                 _items.Add(new ScheduledTask
                 {
-                    ScheduledTime = DateTime.ParseExact(rowSpl[0], "yyyyMMddhhmmssffff", System.Globalization.CultureInfo.InvariantCulture),
+                    ScheduledTime = DateTime.ParseExact(rowSpl[0], "yyyyMMddHHmmssffff", System.Globalization.CultureInfo.InvariantCulture),
                     Channel = channel,
                     FailedTimes = tryCount,
                     Data = x["Data"].StringValue,
